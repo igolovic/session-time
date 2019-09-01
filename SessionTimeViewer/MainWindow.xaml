@@ -7,14 +7,13 @@
             <Setter Property="Visibility" Value="Collapsed" />
         </Style>
     </Window.Resources>
-    <ScrollViewer>
-        <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
-                <Label HorizontalAlignment="Left" Margin="0 0 5 0" Content="Parse log and display sessions and logged on/logged off periods for selected user account:" />
-                <ComboBox HorizontalAlignment="Left" Margin="0 0 5 0" Name="cbUser" />
-                <Button HorizontalAlignment="Left" Name="btnRefresh" Click="Refresh_Click" Width="150">Refresh</Button>
-            </StackPanel>
-            <ListView Name="lvSessionMain">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <Label HorizontalAlignment="Left" Margin="0 0 5 0" Content="Parse log and display sessions and logged on/logged off periods for selected user account:" />
+            <ComboBox HorizontalAlignment="Left" Margin="0 0 5 0" Name="cbUser" />
+            <Button HorizontalAlignment="Left" Name="btnRefresh" Click="Refresh_Click" Width="150">Refresh</Button>
+        </StackPanel>
+        <ListView DockPanel.Dock="Top"  Name="lvSessionMain">
                 <ListView.Resources>
                     <Style TargetType="{x:Type ListViewItem}">
                         <Setter Property="VerticalContentAlignment" Value="Top"/>
@@ -54,6 +53,5 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-        </StackPanel>
-    </ScrollViewer>
+    </DockPanel>
 </Window>
