@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The name of the product -->
+<?define Name = "SessionTime" ?>
+<!-- The manufacturer, for setup package publisher and folder info -->
+<?define Manufacturer = "IvG" ?>
+<!-- The version number of this setup package-->
+<?define Version = "1.0.0.2" ?>
+<!-- UpgradeCode must be unique and not changed once the first version of the program is installed. -->
+<?define UpgradeCode = "{2ED15438-B557-4815-BF43-1391908CE6BB}" ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="$(var.Name)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" Version="$(var.Version)" Language="1033">
+    <!-- Create a folder inside SessionTime called SessionTime -->
+    <Package InstallerVersion="200" Compressed="yes"/>
+    <!-- Create a folder inside SessionTime called SessionTime -->
+    <Media Id="1" Cabinet="SessionTime.cab" EmbedCab="yes" />
+
+    <!-- Allow upgrades and prevent downgrades -->
+    <MajorUpgrade Schedule="afterInstallInitialize" AllowSameVersionUpgrades="yes" DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit." />
+
+    <!-- Define the directory structure -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+
+      <Directory Id="ProgramFilesFolder">
+        <!-- Create a folder inside program files called SessionTime -->
+        <Directory Id="ROOTDIRECTORY" Name="$(var.Manufacturer)">
+          <!-- Create a folder inside Talk Sharp called SessionTime -->
+          <Directory Id="INSTALLFOLDER" Name="$(var.Name)" />
+        </Directory>
+      </Directory>
+      
+      <!--Specify the Program Menu Folder directory and Desktop folder for shortcuts-->
+      <Directory Id="ProgramMenuFolder" Name="All Programs folder">
+        <Directory Id ="IvGFolder" Name="IvG">
+          <Directory Id ="SessionTimeFolder" Name="SessionTime" />
+        </Directory>
+      </Directory>
+      
+    </Directory>
+
+    <!-- The files inside this DirectoryRef are linked to the SessionTime directory via INSTALLFOLDER -->
+    <DirectoryRef Id="INSTALLFOLDER">
+      <!-- Create Windows service component which is the SessionTimeMonitor.exe file -->
+      <Component Id="$(var.SessionTimeMonitor.TargetFileName)">
+        <!-- Copies the SessionTimeMonitor.exe file using the project reference preprocessor variables -->
+        <File Id="$(var.SessionTimeMonitor.TargetFileName)" Source="$(var.SessionTimeMonitor.TargetPath)" KeyPath="yes" Vital="yes" />
+        <File Id="$(var.SessionTimeMonitor.TargetFileName).config" Source="$(var.SessionTimeMonitor.TargetPath).config" KeyPath="no" Vital="yes" />
+        <!-- Remove all files from the INSTALLFOLDER on uninstall -->
+        <RemoveFile Id="ALLFILES" Name="*.*" On="both" />
+        <!-- Tell WiX to install the Service -->
+        <ServiceInstall Id="ServiceInstaller"
+        Type="ownProcess"
+        Name="SessionTimeMonitor"
+        DisplayName="SessionTimeMonitor"
+        Account="LocalSystem"
+        Description="SessionTimeMonitor service to monitor session events."
+        Start="auto"
+        ErrorControl="normal" />
+        <!-- Tell WiX to start the Service -->
+        <ServiceControl Id="ServiceControl_Start"
+                Name="SessionTimeMonitor"
+                Start="install"
+                Wait="no" />
+        <ServiceControl Id="ServiceControl_Stop"
+                        Name="SessionTimeMonitor"
+                        Stop="both"
+                        Remove="uninstall"
+                        Wait="yes" />
+      </Component>
+      <!-- Create Windows application component which is the SessionTimeViewer.exe file -->
+      <Component Id="$(var.SessionTimeViewer.TargetFileName)">
+        <!-- Copies the SessionTimeViewer.exe file using the project reference preprocessor variables -->
+        <File Id="$(var.SessionTimeViewer.TargetFileName)" Source="$(var.SessionTimeViewer.TargetPath)" KeyPath="yes" />
+        <File Id="$(var.SessionTimeViewer.TargetFileName).config" Source="$(var.SessionTimeViewer.TargetPath).config" KeyPath="no" Vital="yes" />
+        <!-- Remove all files from the INSTALLFOLDER on uninstall -->
+        <RemoveFile Id="ALLFILES2" Name="*.*" On="both" />
+      </Component>
+      <Component Id="$(var.SessionTimeCommon.TargetFileName)">
+        <!-- Copies the SessionTimeViewer.exe file using the project reference preprocessor variables -->
+        <File Id="$(var.SessionTimeCommon.TargetFileName)" Source="$(var.SessionTimeCommon.TargetPath)" KeyPath="yes" />
+        <!-- Remove all files from the INSTALLFOLDER on uninstall -->
+        <RemoveFile Id="ALLFILES3" Name="*.*" On="both" />
+      </Component>
+      <Component Id="Cassia.dll" Guid="2a137f7f-0254-453a-9a7c-5ded8172f1a3">
+        <File Id="Cassia.dll" Source="$(var.SessionTimeCommon.ProjectDir)\SharedReferences\Cassia.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="SessionTimeDocumentation.docx" Guid="1a137f7f-0254-453a-9a7c-5ded8172f1a4">
+        <File Id="SessionTimeDocumentation.docx" Source="$(var.SolutionDir)\Documentation\SessionTimeDocumentation.docx" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+    <!--StartMenu Shortcut for SessionTime-->
+    <DirectoryRef Id="SessionTimeFolder">
+      <Component Id="ApplicationStartMenuShortcut" Guid="2fe92e21-38ca-4a6f-bf9f-5784e651628c">
+        <Shortcut Id="SessionTimeStartMenuShortcut"
+                  Name="SessionTimeViewer"
+                  Description="SessionTimeViewer - parse logon/logoff and lock/unlock events in session"
+                  Target="[INSTALLFOLDER]\SessionTimeViewer.exe"
+                  WorkingDirectory="SessionTime">
+        </Shortcut>
+        <Shortcut Id="SessionTimeDocumentationStartMenuShortcut"
+          Name="SessionTimeDocumentation"
+          Description="SessionTime developer and user documentation"
+          Target="[INSTALLFOLDER]\SessionTimeDocumentation.docx"
+          WorkingDirectory="SessionTime">
+        </Shortcut>
+        <Shortcut Id="UninstallProduct"
+          Name="Uninstall SessionTime"
+          Target="[SystemFolder]msiexec.exe"
+          Arguments="/x [ProductCode]"
+          Description="Uninstalls SessionTime" />
+        <RemoveFolder Id="RemoveIvGFolder" Directory="IvGFolder" On="uninstall" />
+        <RemoveFolder Id="RemoveSessionTimeFolder" Directory="SessionTimeFolder" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="Software\SessionTime" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+
+    <!-- Tell WiX to install the files -->
+    <Feature Id="MainApplication" Title="Main Application" Level="1">
+      <ComponentRef Id="$(var.SessionTimeMonitor.TargetFileName)" />
+      <ComponentRef Id="$(var.SessionTimeViewer.TargetFileName)" />
+      <ComponentRef Id="$(var.SessionTimeCommon.TargetFileName)" />
+      <ComponentRef Id="Cassia.dll" />
+      <ComponentRef Id="SessionTimeDocumentation.docx" />
+      <ComponentRef Id="ApplicationStartMenuShortcut" />
+    </Feature>
+
+  </Product>
+</Wix>
