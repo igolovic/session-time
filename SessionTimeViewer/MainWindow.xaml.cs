@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Xml.Linq;
-using System.Configuration;
 using System.IO;
 using System.Diagnostics;
 using SessionTime.SessionTimeCommon;
@@ -15,20 +14,16 @@ namespace SessionTime.SessionTimeViewer
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string dataFilePath = ConfigurationManager.AppSettings["DataFilePath"];
-        private string logFilePath = ConfigurationManager.AppSettings["LogFilePath"];
-
         public MainWindow()
         {
             try
             {
                 InitializeComponent();
-                SessionManager.Initialize(dataFilePath, logFilePath);
                 this.Loaded += MainWindow_Loaded;
             }
             catch (Exception ex)
             {
-                Utility.Log(logFilePath, ex.ToString());
+                Utility.Log(ex.ToString());
             }
         }
 
@@ -42,13 +37,11 @@ namespace SessionTime.SessionTimeViewer
             }
             catch (Exception ex)
             {
-                Utility.Log(logFilePath, ex.ToString());
+                Utility.Log(ex.ToString());
             }
         }
 
-        #endregion
-
-        private void Refresh_Click(object sender, RoutedEventArgs e)
+        private void BtnRefresh_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -56,15 +49,29 @@ namespace SessionTime.SessionTimeViewer
             }
             catch (Exception ex)
             {
-                Utility.Log(logFilePath, ex.ToString());
+                Utility.Log(ex.ToString());
             }
         }
-        
+        private void BtnInfo_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var aboutWindow = new AboutWindow();
+                aboutWindow.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Utility.Log(ex.ToString());
+            }
+        }
+
+        #endregion
+
         #region Private methods
 
         private void LoadData()
         {
-            if (File.Exists(dataFilePath))
+            if (File.Exists(GlobalSettings.DataFilePath))
             {
                 var sessions = SessionManager.GetSessions();
                 if (sessions.Count() > 0)

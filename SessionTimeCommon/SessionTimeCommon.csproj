@@ -31,12 +31,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Graphicloads-100-Flat-Clock.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Cassia, Version=2.0.0.60, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>SharedReferences\Cassia.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -49,6 +53,7 @@
     <Compile Include="PeriodInSessionByLockStatus.cs" />
     <Compile Include="SessionTrackingEvents.cs" />
     <Compile Include="SessionTracking.cs" />
+    <Compile Include="GlobalSettings.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="SessionInfo.cs" />
     <Compile Include="SessionManager.cs" />
@@ -56,6 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Graphicloads-100-Flat-Clock.ico" />
     <Content Include="SharedReferences\Cassia.dll" />
   </ItemGroup>
   <ItemGroup>

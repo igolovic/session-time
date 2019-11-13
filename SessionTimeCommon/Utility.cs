@@ -12,9 +12,11 @@ namespace SessionTime.SessionTimeCommon
 {
     public static class Utility
     {
-        public static void Log(string logFilePath, string message)
+        private static string logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SessionTimeMonitorErrorLog.txt");
+        
+        public static void Log(string message)
         {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(logFilePath, true))
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(logPath, true))
             {
                 file.WriteLine(message);
             }

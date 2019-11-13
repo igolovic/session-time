@@ -16,8 +16,6 @@ namespace SessionTime.SessionTimeMonitor
 {
     public partial class SessionTimeMonitor : ServiceBase
     {
-        private string dataFilePath = ConfigurationManager.AppSettings["DataFilePath"];
-        private string logFilePath = ConfigurationManager.AppSettings["LogFilePath"];
         private Guid currentServiceRunGuid = Guid.NewGuid();
 
         public SessionTimeMonitor()
@@ -25,14 +23,13 @@ namespace SessionTime.SessionTimeMonitor
             try
             {
                 InitializeComponent();
-                SessionManager.Initialize(dataFilePath, logFilePath);
                 CanPauseAndContinue = false;
                 CanHandleSessionChangeEvent = true;
                 ServiceName = "SessionTimeMonitor";
             }
             catch (Exception ex)
             {
-                Utility.Log(logFilePath, ex.ToString());
+                Utility.Log(ex.ToString());
             }
         }
 
@@ -57,7 +54,7 @@ namespace SessionTime.SessionTimeMonitor
             }
             catch (Exception ex)
             {
-                Utility.Log(logFilePath, ex.ToString());
+                Utility.Log(ex.ToString());
             }
         }
 
@@ -75,7 +72,7 @@ namespace SessionTime.SessionTimeMonitor
             }
             catch (Exception ex)
             {
-                Utility.Log(logFilePath, ex.ToString());
+                Utility.Log(ex.ToString());
             }
         }
 
@@ -93,7 +90,7 @@ namespace SessionTime.SessionTimeMonitor
             }
             catch (Exception ex)
             {
-                Utility.Log(logFilePath, ex.ToString());
+                Utility.Log(ex.ToString());
             }
         }
 

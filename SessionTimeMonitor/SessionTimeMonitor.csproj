@@ -52,6 +52,9 @@
   <PropertyGroup>
     <StartupObject>SessionTime.SessionTimeMonitor.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Graphicloads-100-Flat-Clock.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -86,6 +89,7 @@
     <Content Include="App.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Graphicloads-100-Flat-Clock.ico" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SessionTimeMonitorSvc.resx">
