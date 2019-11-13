@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29209.62
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SessionTimeMonitor", "SessionTimeMonitor\SessionTimeMonitor.csproj", "{259C2A89-FCE4-4D98-8DC7-5CF37DA2291B}"
 EndProject
@@ -20,7 +20,7 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SessionTimeSetupWix", "Sess
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{3A47A325-627D-4B45-9172-80834DB2E4B0}"
 	ProjectSection(SolutionItems) = preProject
-		Documentation\SessionTimeDocumentation.docx = Documentation\SessionTimeDocumentation.docx
+		Documentation\SessionTimeDocumentation.txt = Documentation\SessionTimeDocumentation.txt
 	EndProjectSection
 EndProject
 Global

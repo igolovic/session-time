@@ -14,16 +14,7 @@ namespace SessionTime.SessionTimeCommon
 {
     public static class SessionManager
     {
-        private static string dataFilePath = null;
-        private static string logFilePath = null;
-
         #region Public methods
-
-        public static void Initialize(string dataFilePath, string logFilePath)
-        {
-            SessionManager.dataFilePath = dataFilePath;
-            SessionManager.logFilePath = logFilePath;
-        }
 
         /// <summary>
         /// Method to parse sessions from recorded session events
@@ -31,7 +22,7 @@ namespace SessionTime.SessionTimeCommon
         /// <returns></returns>
         public static List<SessionInfo> GetSessions()
         {
-            SessionTracking sessionTracking = Utility.DeserializeObjectFromFile<SessionTracking>(dataFilePath);
+            SessionTracking sessionTracking = Utility.DeserializeObjectFromFile<SessionTracking>(GlobalSettings.DataFilePath);
 
             // Sessions are defined by ServiceRunGuid and SessionId.
             // SessionId can repeat itself within ServiceRunGuid - such is the Windows implementation
@@ -123,12 +114,12 @@ namespace SessionTime.SessionTimeCommon
             using (ITerminalServer server = new TerminalServicesManager().GetLocalServer())
             {
                 SessionTracking sessionTracking = null;
-                if (!File.Exists(dataFilePath))
+                if (!File.Exists(GlobalSettings.DataFilePath))
                 {
                     sessionTracking = new SessionTracking();
                     sessionTracking.SessionTrackingParamsList = new List<SessionTrackingParams>();
-                    File.Create(dataFilePath).Close();
-                    Utility.SerializeObjectToFile<SessionTracking>(sessionTracking, dataFilePath);
+                    File.Create(GlobalSettings.DataFilePath).Close();
+                    Utility.SerializeObjectToFile<SessionTracking>(sessionTracking, GlobalSettings.DataFilePath);
                 }
 
                 server.Open();
@@ -151,7 +142,7 @@ namespace SessionTime.SessionTimeCommon
                         // Faster and not-so-clean way to write XML node to the end of the serialized List<SessionTrackingParams>,
                         // cleaner way would be to deserialize, add node and serialize whole list which might contain hundreds of records, but it would 
                         // possibly be much slower in case of large file.
-                        string text = File.ReadAllText(dataFilePath);
+                        string text = File.ReadAllText(GlobalSettings.DataFilePath);
                         if (text.Contains("</SessionTrackingParamsList>"))
                         {
                             text = text.Replace(
@@ -164,7 +155,7 @@ namespace SessionTime.SessionTimeCommon
                                 "<SessionTrackingParamsList />",
                                 "<SessionTrackingParamsList>" + Environment.NewLine + sessionTrackingParamsSerialized + Environment.NewLine + "</SessionTrackingParamsList>"); 
                         }
-                        File.WriteAllText(dataFilePath, text);
+                        File.WriteAllText(GlobalSettings.DataFilePath, text);
                         
                         if (!logAllExistingSessions)
                             break;

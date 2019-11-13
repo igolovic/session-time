@@ -8,50 +8,51 @@
         </Style>
     </Window.Resources>
     <DockPanel>
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-            <Label HorizontalAlignment="Left" Margin="0 0 5 0" Content="Parse log and display sessions and logged on/logged off periods for selected user account:" />
-            <ComboBox HorizontalAlignment="Left" Margin="0 0 5 0" Name="cbUser" />
-            <Button HorizontalAlignment="Left" Name="btnRefresh" Click="Refresh_Click" Width="150">Refresh</Button>
-        </StackPanel>
+        <DockPanel DockPanel.Dock="Top" >
+            <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Margin="0 0 5 0" Content="Parse log and display sessions and logged on/logged off periods for selected user account:" />
+            <ComboBox DockPanel.Dock="Left" HorizontalAlignment="Left" Margin="0 0 5 0" Name="cbUser" />
+            <Button DockPanel.Dock="Left" HorizontalAlignment="Left" Name="btnRefresh" Click="BtnRefresh_Click" Width="150">Refresh</Button>
+            <Button DockPanel.Dock="Right" HorizontalAlignment="Right" Name="btnInfo" Click="BtnInfo_Click" Width="150">About</Button>
+        </DockPanel>
         <ListView DockPanel.Dock="Top"  Name="lvSessionMain">
-                <ListView.Resources>
-                    <Style TargetType="{x:Type ListViewItem}">
-                        <Setter Property="VerticalContentAlignment" Value="Top"/>
-                    </Style>
-                </ListView.Resources>
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding SessionLogonDateTime, StringFormat=\{0:dd.MM.yyyy HH:mm:ss\}}" Header="First logon event in session"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding SessionLogoffDateTime, StringFormat=\{0:dd.MM.yyyy HH:mm:ss\}}" Header="Last logoff event in session" />
-                        <GridViewColumn DisplayMemberBinding="{Binding TimeBetweenSessionLogonAndLogoff}" Header="Session duration" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Account}" Header="User account" />
-                        <GridViewColumn Header="Periods in session by lock status (red=locked)">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <ListView ItemsSource="{Binding PeriodsInSessionByLockStatus}" BorderThickness="0">
-                                        <ListView.Resources>
-                                            <Style TargetType="{x:Type ListViewItem}">
-                                                <Setter Property="Background" Value="GreenYellow" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsLocked}" Value="true">
-                                                        <Setter Property="Background" Value="Red" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </ListView.Resources>
-                                        <ListView.View>
-                                            <GridView ColumnHeaderContainerStyle="{StaticResource myHeaderStyle}">
-                                                <GridViewColumn DisplayMemberBinding="{Binding StartDateTime, StringFormat=\{0:dd.MM.yyyy HH:mm:ss\}}" />
-                                                <GridViewColumn DisplayMemberBinding="{Binding EndDateTime, StringFormat=\{0:dd.MM.yyyy HH:mm:ss\}}" />
-                                                <GridViewColumn DisplayMemberBinding="{Binding TimeBetweenStartAndEnd}" />
-                                            </GridView>
-                                        </ListView.View>
-                                    </ListView>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <ListView.Resources>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="VerticalContentAlignment" Value="Top"/>
+                </Style>
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding SessionLogonDateTime, StringFormat=\{0:dd.MM.yyyy HH:mm:ss\}}" Header="First logon event in session"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding SessionLogoffDateTime, StringFormat=\{0:dd.MM.yyyy HH:mm:ss\}}" Header="Last logoff event in session" />
+                    <GridViewColumn DisplayMemberBinding="{Binding TimeBetweenSessionLogonAndLogoff}" Header="Session duration" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Account}" Header="User account" />
+                    <GridViewColumn Header="Periods in session by lock status (red=locked)">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListView ItemsSource="{Binding PeriodsInSessionByLockStatus}" BorderThickness="0">
+                                    <ListView.Resources>
+                                        <Style TargetType="{x:Type ListViewItem}">
+                                            <Setter Property="Background" Value="GreenYellow" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsLocked}" Value="true">
+                                                    <Setter Property="Background" Value="Red" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ListView.Resources>
+                                    <ListView.View>
+                                        <GridView ColumnHeaderContainerStyle="{StaticResource myHeaderStyle}">
+                                            <GridViewColumn DisplayMemberBinding="{Binding StartDateTime, StringFormat=\{0:dd.MM.yyyy HH:mm:ss\}}" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding EndDateTime, StringFormat=\{0:dd.MM.yyyy HH:mm:ss\}}" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding TimeBetweenStartAndEnd}" />
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </DockPanel>
 </Window>

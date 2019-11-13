@@ -84,8 +84,8 @@
       <Component Id="Cassia.dll" Guid="2a137f7f-0254-453a-9a7c-5ded8172f1a3">
         <File Id="Cassia.dll" Source="$(var.SessionTimeCommon.ProjectDir)\SharedReferences\Cassia.dll" KeyPath="yes"/>
       </Component>
-      <Component Id="SessionTimeDocumentation.docx" Guid="1a137f7f-0254-453a-9a7c-5ded8172f1a4">
-        <File Id="SessionTimeDocumentation.docx" Source="$(var.SolutionDir)\Documentation\SessionTimeDocumentation.docx" KeyPath="yes"/>
+      <Component Id="SessionTimeDocumentation.txt" Guid="1a137f7f-0254-453a-9a7c-5ded8172f1a4">
+        <File Id="SessionTimeDocumentation.txt" Source="$(var.SolutionDir)\Documentation\SessionTimeDocumentation.txt" KeyPath="yes"/>
       </Component>
     </DirectoryRef>
 
@@ -101,7 +101,7 @@
         <Shortcut Id="SessionTimeDocumentationStartMenuShortcut"
           Name="SessionTimeDocumentation"
           Description="SessionTime developer and user documentation"
-          Target="[INSTALLFOLDER]\SessionTimeDocumentation.docx"
+          Target="[INSTALLFOLDER]\SessionTimeDocumentation.txt"
           WorkingDirectory="SessionTime">
         </Shortcut>
         <Shortcut Id="UninstallProduct"
@@ -121,7 +121,7 @@
       <ComponentRef Id="$(var.SessionTimeViewer.TargetFileName)" />
       <ComponentRef Id="$(var.SessionTimeCommon.TargetFileName)" />
       <ComponentRef Id="Cassia.dll" />
-      <ComponentRef Id="SessionTimeDocumentation.docx" />
+      <ComponentRef Id="SessionTimeDocumentation.txt" />
       <ComponentRef Id="ApplicationStartMenuShortcut" />
     </Feature>
 
