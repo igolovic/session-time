@@ -3,14 +3,14 @@ SESSIONTIME - LOG WINDOWS SESSION EVENTS AND DISPLAY SESSION DURATIONS AND LOCKE
 
 Ivan Golović, 13 Nov 2019, MIT license
 
-This application consists of Windows service that logs Windows session events and WPF application that parses resulting log to display session durations and locked/unlocked periods within sessions for selected user.
+This application consists of Windows service that records Windows session events and WPF application that parses resulting data to display session durations and locked/unlocked periods within sessions for selected user.
 
 INTRODUCTION
 
-This article describes one possible approach to logging session events on Windows operating system. It also parses event data to display session durations and locked/unlocked periods. Following session events are logged: logon, logoff, lock, unlock.
-Source code might be useful to developers who need working source code to help them with their own Windows session logging solution. Windows service and application might be useful if you want to monitor how much time you spend on computer or at which time you logged in and started working.
+This article describes one possible approach to recording session events on Windows operating system. It also parses event data to display session durations and locked/unlocked periods. Following session events are recorded: logon, logoff, lock, unlock.
+Source code might be useful to developers who need working source code to help them with their own Windows session time solution. Windows service and application might be useful if you want to monitor how much time you spend on computer or at which time you logged in and started working.
 Application consists of following parts:
--	SessionTimeMonitor - Windows service that logs events
+-	SessionTimeMonitor - Windows service that records events
 -	SessionTimeViewer - Windows application that displays parsed session durations and locked/unlocked periods within sessions
 -	SessionTimeSetupWix - Installer/uninstaller for Windows service and application
 
@@ -28,7 +28,7 @@ I needed this application to determine how much time I spend on the computer and
 
 DEVELOPMENT TOOLS
 
-Initial version of Windows service and WPF application were developed using .NET Framework 4.0 and Visual Studio 2010. Current solution compiles in Visual Studio 2017 with WiX support and .NET Framework 4.0.
+Initial version of Windows service and WPF application were developed using .NET Framework 4.0 and Visual Studio 2010. Current solution builds in Visual Studio 2017 with WiX support and .NET Framework 4.0.
 
 HOW IT WORKS
 
@@ -39,34 +39,33 @@ SessionTimeViewer (Windows application)
 
 HANDLING THE ONSESSIONCHANGE EVENT
 
-The main part of the solution is a Windows service that logs session events to the XML data file, this is done through overriding the OnSessionChange event. Log is kept in form of XML file stored on disk.
+The main part of the solution is a Windows service that records session events to the XML data file, this is done through overriding the OnSessionChange event. Recorded data is kept in form of XML file stored on disk.
 
 XML DATA RECORD
 
-Each logged event is represented by SessionTrackingParams XML element. Such element is added to log when the service starts (OnStart event) for each existing session or when session changes (OnSessionChange event). Such events are logged in SessionTimeMonitor service and serialized to the list stored in XML data file.
+Each recorded event is represented by SessionTrackingParams XML element. Such element is added to XML file when the service starts (OnStart event) for each existing session or when session changes (OnSessionChange event). Such events are recorded by SessionTimeMonitor service and added to XML file.
 
 DISPLAYING SESSION DURATION AND LOCKED/UNLOCKED PERIODS
 
-Parsing of XML data file is performed by SessionTimeViewer which is a Windows WPF application that shows following information:
+Parsing of XML file is performed by SessionTimeViewer which is a Windows WPF application that shows following information:
 -	sessions - as periods between logon and logoff event within same service run marked by ServiceRunGuid
 -	unlocked periods - as periods within same session between: logon and logoff, logon and lock, unlock and logoff, unlock and lock
 -	locked periods - as periods within same session between: lock and unlock, lock and logoff
-This way, it is possible to see when and how long certain user has been logged on and when locked or unlocked periods happened.
+This way it is possible to see when and for how long user's session lasted and when did locked and unlocked periods happen.
 
 POINTS OF INTEREST
 
 -	SessionTimeMonitor utilizes the Cassia library which is "a .NET library for accessing the native Windows Terminal Services API (now the Remote Desktop Services API)" (https://code.google.com/p/cassia/, 2016-01-06), it uses its GetSessions method to obtain session data
--	When computer starts up, it is possible that SessionTimeMonitor: starts before user logon - in such case user logon will be registered through OnSessionChange event, starts after the user logon - in such case all existing sessions are registered through service's OnStart event
--	SessionTimeMonitor and SessionTimeViewer are using config files to set path of XML data file so those paths are configurable
+-	When computer starts up it is possible that SessionTimeMonitor: starts before user logon - in such case user logon will be recorded through OnSessionChange event, starts after user logon - in such case all existing sessions are recorded through service's OnStart event
 -	Service and application have been tested on Windows 7 (32 bit), Windows 8.1 (64 bit), Windows 10 (64-bit)
--	Application requires currently used .NET Framework version
+-	Application requires currently used .NET Framework runtime to be installed on computer
 
 HISTORY
 
 -	1.0.0.0 - 2016-06-01 - Initial version
 -	1.0.0.1 - 2016-06-01 - Bugfix for version 1.0.0.0, previous version wasn't logging logoff event correctly due to last-minute untested change
 -	1.0.0.2 – various bugfixes, user selection, Wix setup introduced
--	1.0.0.3 – improved documentation
+-	1.0.0.3 – various improvements: added "about" window with version/author/repository/documentation info, replaced .docx with .txt for documentation file, improved quality of documentation, moved error log to folder Environment.SpecialFolder.LocalApplicationData, added application icon, global variable moved to GlobalSettings class, removed deprecated SessionTimeSetup project
 
 LICENSE
 
