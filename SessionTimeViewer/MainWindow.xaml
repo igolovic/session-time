@@ -9,7 +9,7 @@
     </Window.Resources>
     <DockPanel>
         <DockPanel DockPanel.Dock="Top" >
-            <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Margin="0 0 5 0" Content="Parse log and display sessions and logged on/logged off periods for selected user account:" />
+            <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Margin="0 0 5 0" Content="Parse data records and display sessions and locked/unlocked periods for selected user account:" />
             <ComboBox DockPanel.Dock="Left" HorizontalAlignment="Left" Margin="0 0 5 0" Name="cbUser" />
             <Button DockPanel.Dock="Left" HorizontalAlignment="Left" Name="btnRefresh" Click="BtnRefresh_Click" Width="150">Refresh</Button>
             <Button DockPanel.Dock="Right" HorizontalAlignment="Right" Name="btnInfo" Click="BtnInfo_Click" Width="150">About</Button>
@@ -26,7 +26,7 @@
                     <GridViewColumn DisplayMemberBinding="{Binding SessionLogoffDateTime, StringFormat=\{0:dd.MM.yyyy HH:mm:ss\}}" Header="Last logoff event in session" />
                     <GridViewColumn DisplayMemberBinding="{Binding TimeBetweenSessionLogonAndLogoff}" Header="Session duration" />
                     <GridViewColumn DisplayMemberBinding="{Binding Account}" Header="User account" />
-                    <GridViewColumn Header="Periods in session by lock status (red=locked)">
+                    <GridViewColumn Header="Periods in session by locked/unlocked status (red/green)">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ListView ItemsSource="{Binding PeriodsInSessionByLockStatus}" BorderThickness="0">

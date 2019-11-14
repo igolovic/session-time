@@ -25,16 +25,31 @@ namespace SessionTime.SessionTimeViewer
         public AboutWindow()
         {
             InitializeComponent();
+            this.PreviewKeyDown += new KeyEventHandler(Key_PreviewKeyDown);
         }
+
+        #region Event handlers
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             try
             {
-                lblVersion.Content = "SessionTimeViewer " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                string pathSessionTimeViewer = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                lblVersionSessionTimeViewer.Content = "SessionTimeViewer " + FileVersionInfo.GetVersionInfo(pathSessionTimeViewer).ProductVersion;
+
+                string folderPathSessionTime = Path.GetDirectoryName(pathSessionTimeViewer);
+
+                string pathSessionTimeMonitor = Path.Combine(folderPathSessionTime, "SessionTimeMonitor.exe");
+                if (File.Exists(pathSessionTimeMonitor))
+                    lblVersionSessionTimeMonitor.Content = "SessionTimeMonitor " + FileVersionInfo.GetVersionInfo(pathSessionTimeMonitor).ProductVersion;
+
+                string pathSessionTimeCommon = Path.Combine(folderPathSessionTime, "SessionTimeCommon.dll");
+                if (File.Exists(pathSessionTimeCommon))
+                    lblVersionSessionTimeCommon.Content = "SessionTimeCommon " + FileVersionInfo.GetVersionInfo(pathSessionTimeCommon).ProductVersion;
             }
             catch (Exception ex)
             {
+                SessionTimeViewerUtility.ShowException(ex);
                 Utility.Log(ex.ToString());
             }
         }
@@ -48,6 +63,7 @@ namespace SessionTime.SessionTimeViewer
             }
             catch (Exception ex)
             {
+                SessionTimeViewerUtility.ShowException(ex);
                 Utility.Log(ex.ToString());
             }
         }
@@ -57,20 +73,29 @@ namespace SessionTime.SessionTimeViewer
             try
             {
                 string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                UriBuilder uri = new UriBuilder(codeBase);
-                string path = Uri.UnescapeDataString(uri.Path);
+                UriBuilder codeBaseUri = new UriBuilder(codeBase);
+                string codeBasePath = Uri.UnescapeDataString(codeBaseUri.Path);
+                string documentationFilePath = Path.Combine(Path.GetDirectoryName(codeBasePath), "SessionTimeDocumentation.txt");
 
-
-                string documentationFilePath = Path.Combine(Path.GetDirectoryName(path), "SessionTimeDocumentation.txt");
-                Process.Start(new ProcessStartInfo(documentationFilePath));
-                e.Handled = true;
-                int a = 0;
-                int z = 3 / a;
+                if (File.Exists(documentationFilePath))
+                {
+                    Process.Start(new ProcessStartInfo(documentationFilePath));
+                    e.Handled = true;
+                }
+                else
+                    MessageBox.Show("Cannot find SessionTimeDocumentation.txt in application folder.");
             }
             catch (Exception ex)
             {
+                SessionTimeViewerUtility.ShowException(ex);
                 Utility.Log(ex.ToString());
             }
+        }
+
+        private void Key_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+                Close();
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
@@ -81,8 +106,11 @@ namespace SessionTime.SessionTimeViewer
             }
             catch (Exception ex)
             {
+                SessionTimeViewerUtility.ShowException(ex);
                 Utility.Log(ex.ToString());
             }
         }
+
+        #endregion
     }
 }
