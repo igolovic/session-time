@@ -1,7 +1,7 @@
 # session-time
 SESSIONTIME - LOG WINDOWS SESSION EVENTS AND DISPLAY SESSION DURATIONS AND LOCKED PERIODS
 
-Ivan Golović, 13 Nov 2019, MIT license
+Ivan Golović
 
 This application consists of Windows service that records Windows session events and WPF application that parses resulting data to display session durations and locked/unlocked periods within sessions for selected user.
 
@@ -55,6 +55,7 @@ This way it is possible to see when and for how long user's session lasted and w
 
 POINTS OF INTEREST
 
+-	On some systems it might be necessary that SessionTime is installed by user with Administrator privilege, it might also be necessary that SessionTimeViewer is ran by user with Administrator privilege
 -	SessionTimeMonitor utilizes the Cassia library which is "a .NET library for accessing the native Windows Terminal Services API (now the Remote Desktop Services API)" (https://code.google.com/p/cassia/, 2016-01-06), it uses its GetSessions method to obtain session data
 -	When computer starts up it is possible that SessionTimeMonitor: starts before user logon - in such case user logon will be recorded through OnSessionChange event, starts after user logon - in such case all existing sessions are recorded through service's OnStart event
 -	Service and application have been tested on Windows 7 (32 bit), Windows 8.1 (64 bit), Windows 10 (64-bit)
@@ -66,8 +67,9 @@ HISTORY
 -	1.0.0.1 - 2016-06-01 - Bugfix for version 1.0.0.0, previous version wasn't logging logoff event correctly due to last-minute untested change
 -	1.0.0.2 – various bugfixes, user selection, Wix setup introduced
 -	1.0.0.3 – various improvements: added "about" window with version/author/repository/documentation info, replaced .docx with .txt for documentation file, improved quality of documentation, moved error log to folder Environment.SpecialFolder.LocalApplicationData, added application icon, global variable moved to GlobalSettings class, removed deprecated SessionTimeSetup project
+-	1.0.0.4 – renaming in UI to improve correctness and consistency of terms used in application and documentation, showing of exception in message to the user, displaying of versions of all three components in "about" window
 
-LICENSE
+LICENSED UNDER MIT LICENSE
 
 Copyright 2019. Ivan Golović
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
