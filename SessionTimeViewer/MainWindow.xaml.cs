@@ -23,6 +23,7 @@ namespace SessionTime.SessionTimeViewer
             }
             catch (Exception ex)
             {
+                SessionTimeViewerUtility.ShowException(ex);
                 Utility.Log(ex.ToString());
             }
         }
@@ -37,6 +38,7 @@ namespace SessionTime.SessionTimeViewer
             }
             catch (Exception ex)
             {
+                SessionTimeViewerUtility.ShowException(ex);
                 Utility.Log(ex.ToString());
             }
         }
@@ -49,6 +51,7 @@ namespace SessionTime.SessionTimeViewer
             }
             catch (Exception ex)
             {
+                SessionTimeViewerUtility.ShowException(ex);
                 Utility.Log(ex.ToString());
             }
         }
@@ -61,6 +64,7 @@ namespace SessionTime.SessionTimeViewer
             }
             catch (Exception ex)
             {
+                SessionTimeViewerUtility.ShowException(ex);
                 Utility.Log(ex.ToString());
             }
         }

@@ -8,11 +8,11 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SessionTimeViewer")]
-[assembly: AssemblyDescription("Application to parse and view log of Windows session events recorded by the SessionTimeMonitor service")]
+[assembly: AssemblyDescription("Application to parse data file with records and view sessions and locked/unlocked periods within sessions")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("IvG - Ivan Golović :)")]
 [assembly: AssemblyProduct("SessionTimeViewer")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyCopyright("Copyright © Ivan Golović")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,5 +51,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.3")]
-[assembly: AssemblyFileVersion("1.0.0.3")]
+[assembly: AssemblyVersion("1.0.0.4")]
+[assembly: AssemblyFileVersion("1.0.0.4")]
