@@ -73,3 +73,7 @@ HISTORY
 -	1.0.0.3 – various improvements: added "about" window with version/author/repository/documentation info, replaced .docx with .txt for documentation file, improved quality of documentation, moved error log to folder Environment.SpecialFolder.LocalApplicationData, added application icon, global variable moved to GlobalSettings class, removed deprecated SessionTimeSetup project
 -	1.0.0.4 – renaming in UI to improve correctness and consistency of terms used in application and documentation, showing of exception in message to the user, displaying of versions of components in "about" window
 -	1.0.0.5 – added help link that links to documentation file
+
+Screenshot (viewer application):
+![screenshot](./screenshot.png?raw=true)
+
