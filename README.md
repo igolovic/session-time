@@ -10,9 +10,10 @@ INTRODUCTION
 This article describes one possible approach to recording session events on Windows operating system. It also parses event data to display session durations and locked/unlocked periods. Following session events are recorded: logon, logoff, lock, unlock.
 Source code might be useful to developers who need working source code to help them with their own Windows session time solution. Windows service and application might be useful if you want to monitor how much time you spend on computer or at which time you logged in and started working.
 Application consists of following parts:
--	SessionTimeMonitor - Windows service that records events
--	SessionTimeViewer - Windows application that displays parsed session durations and locked/unlocked periods within sessions
--	SessionTimeSetupWix - Installer/uninstaller for Windows service and application
+- SessionTimeMonitor - Windows service that records events
+- SessionTimeViewer - Windows application that displays parsed session durations and locked/unlocked periods within sessions
+- SessionTimeCommon - Contains shared functionality used from SessionTimeMonitor and SessionTimeViewer
+- SessionTimeSetupWix - Installer/uninstaller for Windows service and application
 
 SessionTimeMonitor
 
@@ -21,10 +22,6 @@ Main part is a Windows service called SessionTimeMonitor - it handles the OnSess
 SessionTimeViewer
 
 SessionTimeViewer application opens and parses XML file that contains data records written by the SessionTimeMonitor. It displays list of sessions with their start and end datetime along with the locked/unlocked periods within a single session. SessionTimeViewer is implemented as a WPF application.
-
-SessionTimeCommon
-
-Contains shared functionality used from SessionTimeMonitor and SessionTimeViewer.
 
 BACKGROUND
 
