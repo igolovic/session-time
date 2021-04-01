@@ -33,9 +33,11 @@ Initial version of Windows service and WPF application were developed using .NET
 
 HOW IT WORKS
 
-The following illustration shows how this approach works:
-SessionTimeMonitor (Windows service)
--> writes to - > XML data file -> is read and parsed by - >
+The following illustration shows how this approach works:  
+SessionTimeMonitor (Windows service)  
+-> writes to ->  
+XML data file  
+-> is read and parsed by ->  
 SessionTimeViewer (Windows application)
 
 HANDLING THE ONSESSIONCHANGE EVENT
